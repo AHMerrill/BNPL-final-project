@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1in]{geometry}
+\usepackage{parskip}          % blank line between paragraphs, no indent
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath, amssymb}
@@ -12,15 +13,28 @@
 \usepackage{float}
 \usepackage{url}
 \usepackage{array}
+\usepackage{setspace}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
 
 \hypersetup{colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=blue}
 \graphicspath{{../output/figures/}}
 
-\title{Who Adopts Buy-Now-Pay-Later, and Why? \\
-       \large A Bayesian Hierarchical Re-analysis of a TEP-Based Adoption Survey}
-\author{Zan Merrill \and Andy Kim \and Thomas Garner \\[4pt]
-        \small OM 386: Advanced Analytics in Marketing \\
-        \small McCombs School of Business, The University of Texas at Austin}
+% -----------------------------------------------------------------------------
+% Title block: built manually to keep the three author names on one line, the
+% affiliation block directly beneath, and a clean date. The default \author{}
+% with \and renders awkwardly when the affiliation is also present.
+% -----------------------------------------------------------------------------
+\title{\vspace{-1.2cm}%
+  {\Large Who Adopts Buy-Now-Pay-Later, and Why?}\\[6pt]
+  {\normalsize A Bayesian Hierarchical Re-analysis of a TEP-Based Adoption Survey}%
+}
+\author{%
+  Zan Merrill, Andy Kim, Thomas Garner \\[4pt]
+  \small OM 386: Advanced Analytics in Marketing \\
+  \small McCombs School of Business, The University of Texas at Austin%
+}
 \date{Spring 2026}
 
 \begin{document}
