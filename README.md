@@ -5,7 +5,9 @@
 
 ## What this project is
 
-We extend [Beyond Credit Cards: A TEP Perspective on Buy-Now-Pay-Later Adoption](references/TEP_BNPL_paper.pdf)
+We extend Dadra, Sonavane, Bachwani & Behera (2024),
+[_Beyond Credit Cards: A TEP Perspective on Buy-Now-Pay-Later Adoption_](https://www.tandfonline.com/doi/full/10.1080/21639159.2024.2391282),
+_Journal of Global Scholars of Marketing Science_ 34(4), 459–484,
 using a three-stage pipeline on the same 226-respondent survey:
 
 1. **PCA per construct** — reduce 28 Likert items to 9 construct scores (PC1 per construct).
@@ -38,7 +40,6 @@ coefficients, and (c) full posterior distributions instead of p-values.
 │   └── diagnostics/         MCMC traces, EM convergence, model comparison
 ├── report/
 │   └── main.tex             Overleaf-synced LaTeX source (source of truth: Overleaf)
-├── references/              source paper, rubric, measurement items
 └── README.md
 ```
 

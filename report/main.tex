@@ -29,7 +29,7 @@
 \begin{abstract}
 \noindent We re-analyze a 226-respondent survey of Buy-Now-Pay-Later (BNPL) adoption
 intention originally studied through partial least squares structural
-equation modeling \citep{hira2024tep}. Our contribution is a three-stage
+equation modeling \citep{dadra2024tep}. Our contribution is a three-stage
 pipeline that (i) reduces 28 Likert items to 9 interpretable construct
 scores via per-construct PCA, (ii) discovers latent consumer segments
 using a finite Gaussian mixture estimated via the EM algorithm, and
@@ -64,12 +64,14 @@ reaches a broader and younger demographic.
 \subsection{Data source}
 
 Our analysis uses the 226-respondent survey released with
-\citet{hira2024tep}, a recently published paper in the BNPL adoption
-literature. The data are secondary: we did not collect them, and all
-item wording and construct definitions follow the original paper. The
-source PDF is included in the project repository at
-\texttt{references/TEP\_BNPL\_paper.pdf}, and the raw response file at
-\texttt{data/raw/BNPL Intention to use.xlsx}.
+\citet{dadra2024tep}, published in the \emph{Journal of Global
+Scholars of Marketing Science}. The source paper is available at
+\url{https://www.tandfonline.com/doi/full/10.1080/21639159.2024.2391282}.
+The data are secondary: we did not collect them, and all item
+wording and construct definitions follow the original paper. The
+raw response file lives at
+\texttt{data/raw/BNPL Intention to use.xlsx} in the project
+repository.
 
 \subsection{Research questions}
 
@@ -86,7 +88,7 @@ Extending this dataset, we ask:
 \subsection{Justification}
 
 \paragraph{Why the question matters.} The original BNPL adoption study
-\citep{hira2024tep} estimates one set of coefficients for the entire
+\citep{dadra2024tep} estimates one set of coefficients for the entire
 226-respondent sample and reports $p$-values as the unit of inference.
 That approach answers the question ``what predicts BNPL adoption on
 average?'' but leaves a marketing-relevant question unanswered: whether
@@ -125,13 +127,12 @@ findings into specific managerial actions.
 The data are secondary survey data, with no experimental manipulation.
 Each of the 226 respondents answered 28 Likert items on 7-point
 agreement scales; no responses are missing. Each item maps to exactly
-one of nine theoretical constructs, as defined by \citet{hira2024tep}:
+one of nine theoretical constructs, as defined by \citet{dadra2024tep}:
 Flexibility (FL, 3 items), Performance Expectancy (PE, 3), Effort
 Expectancy (EE, 4), Perceived Autonomy (PA, 3), Perceived Competence
 (PC, 3), Perceived Relatedness (PRE, 2), Perceived Usefulness (PU, 3),
-Attitude (AT, 4), and Intention to Adopt (IA, 3). Full item wording is
-reproduced from the original paper in
-\texttt{references/measurement\_items\_table.png}.
+Attitude (AT, 4), and Intention to Adopt (IA, 3). Full item wording
+appears in Table A1 of the source paper.
 
 \subsection{Item response distributions}
 
@@ -605,9 +606,9 @@ marketer would ask.
 % =============================================================================
 
 \subsection*{A. Measurement items} \label{appendix:items}
-The full item wording is reproduced from \citet{hira2024tep}
-Table A1, available as
-\texttt{references/measurement\_items\_table.png} in the repository.
+The full item wording is Table A1 of \citet{dadra2024tep}, available
+at
+\url{https://www.tandfonline.com/doi/full/10.1080/21639159.2024.2391282}.
 
 \subsection*{B. Pairwise construct-score scatterplots}
 \begin{figure}[H]
