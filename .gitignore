@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Renviron
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+report/main.pdf
+
+# Claude
+.claude/
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+
+# Local reference materials (copyrighted source paper PDF, course rubric PDF,
+# Table A1 reproduction) — kept local to avoid republishing copyrighted
+# content. main.tex cites the source paper via references.bib.
+references/

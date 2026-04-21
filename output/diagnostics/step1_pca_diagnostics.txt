@@ -1,0 +1,64 @@
+=== Flexibility (3 items) ===
+  PC1 variance explained: 0.771
+  PC1 loadings:
+    FL1: 0.559
+    FL2: 0.592
+    FL3: 0.581
+
+=== PerformanceExpectancy (3 items) ===
+  PC1 variance explained: 0.777
+  PC1 loadings:
+    PE1: 0.592
+    PE2: 0.557
+    PE3: 0.583
+
+=== EffortExpectancy (4 items) ===
+  PC1 variance explained: 0.685
+  PC1 loadings:
+    EE1: 0.476
+    EE2: 0.510
+    EE3: 0.505
+    EE4: 0.509
+
+=== PerceivedAutonomy (3 items) ===
+  PC1 variance explained: 0.785
+  PC1 loadings:
+    PA1: 0.608
+    PA2: 0.586
+    PA3: 0.535
+
+=== PerceivedCompetence (3 items) ===
+  PC1 variance explained: 0.678
+  PC1 loadings:
+    PC1: 0.617
+    PC2: 0.621
+    PC3: 0.483
+
+=== PerceivedRelatedness (2 items) ===
+  PC1 variance explained: 0.816
+  PC1 loadings:
+    PRE1: 0.707
+    PRE3: 0.707
+
+=== PerceivedUsefulness (3 items) ===
+  PC1 variance explained: 0.627
+  PC1 loadings:
+    PU1: 0.575
+    PU2: 0.552
+    PU3: 0.603
+
+=== Attitude (4 items) ===
+  PC1 variance explained: 0.858
+  PC1 loadings:
+    AT1: 0.501
+    AT2: 0.515
+    AT3: 0.493
+    AT4: 0.490
+
+=== IntentionToAdopt (3 items) ===
+  PC1 variance explained: 0.880
+  PC1 loadings:
+    IA1: 0.583
+    IA2: 0.585
+    IA3: 0.564
+

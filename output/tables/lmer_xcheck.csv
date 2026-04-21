@@ -1,0 +1,10 @@
+"coef","bayes.mu","lmer.fixed","diff"
+"(Intercept)",0.117,0,0.117
+"Flexibility",0.119,-0.022,0.141
+"PerformanceExpectancy",0.224,0.2,0.024
+"EffortExpectancy",0.074,0.094,-0.019
+"PerceivedAutonomy",0.061,0.083,-0.022
+"PerceivedCompetence",-0.008,-0.022,0.013
+"PerceivedRelatedness",0.075,0.093,-0.018
+"PerceivedUsefulness",0.141,0.155,-0.013
+"Attitude",0.215,0.385,-0.17

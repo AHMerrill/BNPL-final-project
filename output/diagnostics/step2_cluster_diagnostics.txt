@@ -1,0 +1,21 @@
+N = 226 respondents, P = 8 predictors
+Predictors: Flexibility, PerformanceExpectancy, EffortExpectancy, PerceivedAutonomy, PerceivedCompetence, PerceivedRelatedness, PerceivedUsefulness, Attitude
+
+=== (1) mclust (GMM with BIC search) ===
+  best K: 3   covariance model: VEE
+  BIC (mclust sign, higher=better): -4184.37
+  BIC (standard sign, lower=better): 4184.37
+  segment sizes: 99, 89, 38
+
+=== (2) hand-coded EM (multivariate Gaussian mixture) ===
+  K = 3 (same as mclust's BIC-selected K)
+  iterations to convergence: 85
+  log-likelihood: -1915.09
+  parameters: 134  ->  BIC = 4556.54 (standard sign, lower=better)
+  segment sizes: 135, 54, 37
+  ARI vs mclust labels: 0.331
+
+=== Winner ===
+  Method: mclust   K = 3
+  BIC  mclust=4184.37   hand-EM=4556.54   (lower=better)
+

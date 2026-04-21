@@ -1,0 +1,10 @@
+"","Flexibility","PerformanceExpectancy","EffortExpectancy","PerceivedAutonomy","PerceivedCompetence","PerceivedRelatedness","PerceivedUsefulness","Attitude","IntentionToAdopt"
+"Flexibility",1,0.694,0.47,0.53,0.456,0.484,0.527,0.632,0.568
+"PerformanceExpectancy",0.694,1,0.524,0.593,0.449,0.492,0.504,0.671,0.657
+"EffortExpectancy",0.47,0.524,1,0.564,0.621,0.458,0.461,0.538,0.546
+"PerceivedAutonomy",0.53,0.593,0.564,1,0.525,0.48,0.428,0.605,0.579
+"PerceivedCompetence",0.456,0.449,0.621,0.525,1,0.397,0.542,0.436,0.447
+"PerceivedRelatedness",0.484,0.492,0.458,0.48,0.397,1,0.559,0.416,0.485
+"PerceivedUsefulness",0.527,0.504,0.461,0.428,0.542,0.559,1,0.458,0.523
+"Attitude",0.632,0.671,0.538,0.605,0.436,0.416,0.458,1,0.732
+"IntentionToAdopt",0.568,0.657,0.546,0.579,0.447,0.485,0.523,0.732,1

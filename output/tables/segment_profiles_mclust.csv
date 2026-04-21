@@ -1,0 +1,4 @@
+"segment","size","Flexibility","PerformanceExpectancy","EffortExpectancy","PerceivedAutonomy","PerceivedCompetence","PerceivedRelatedness","PerceivedUsefulness","Attitude"
+"Seg1",99,0.126,0.1,-0.034,0.028,-0.047,0.104,-0.072,0.271
+"Seg2",89,-0.541,-0.536,-0.349,-0.449,-0.292,-0.581,-0.369,-0.664
+"Seg3",38,0.937,0.993,0.906,0.978,0.806,1.09,1.052,0.849

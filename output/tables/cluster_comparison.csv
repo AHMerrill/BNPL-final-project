@@ -1,0 +1,3 @@
+"method","best.K","BIC","ARI.vs.mclust"
+"mclust (GMM, BIC search)",3,4184.369,1
+"hand-EM (GMM, full covariance)",3,4556.539,0.331
