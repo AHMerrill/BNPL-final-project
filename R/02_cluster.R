@@ -202,6 +202,33 @@ prof.mc = profile.matrix(Y, mc.lab, "mclust")
 prof.em = profile.matrix(Y, em.lab, "handem")
 prof.w  = profile.matrix(Y, winner.lab, paste0("winner_", winner))
 
+# PCA projection of the 8 standardized predictors, colored by segment, with
+# segment centroids marked. Helps readers see the cluster geometry in 2D.
+pc.proj      = prcomp(Y, center=FALSE, scale.=FALSE)
+proj.scores  = pc.proj$x[, 1:2]
+pc.var       = (pc.proj$sdev^2) / sum(pc.proj$sdev^2)
+
+save.fig("02_segments_pca_projection", {
+  par(mar=c(4.5, 4.5, 3, 1))
+  plot(proj.scores[, 1], proj.scores[, 2],
+       pch=19, cex=1.1,
+       col=adjustcolor(seg.palette[winner.lab], alpha.f=0.7),
+       xlab=sprintf("PC1 of predictors (%.1f%% of variance)", 100 * pc.var[1]),
+       ylab=sprintf("PC2 of predictors (%.1f%% of variance)", 100 * pc.var[2]),
+       main="Consumer segments in the first two predictor principal components")
+  abline(h=0, v=0, lty=3, col="grey60")
+  # centroids
+  for(k in 1:K) {
+    centroid = colMeans(proj.scores[winner.lab == k, 1:2, drop=FALSE])
+    points(centroid[1], centroid[2], pch=4, cex=2.5,
+           col=seg.palette[k], lwd=3)
+    text(centroid[1], centroid[2] + 0.4, paste0("Seg ", k),
+         col=seg.palette[k], font=2, cex=1.05)
+  }
+  legend("topright", paste0("Seg ", 1:K), col=seg.palette[1:K],
+         pch=19, bty="n", cex=0.9)
+}, w=8, h=6)
+
 save.fig("02_segment_profiles_winner", {
   par(mar=c(10, 5, 3, 2))
   rng = c(-max(abs(prof.w)), max(abs(prof.w)))

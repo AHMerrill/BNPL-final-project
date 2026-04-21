@@ -13,6 +13,7 @@
 \usepackage{float}
 \usepackage{url}
 \usepackage{array}
+\usepackage{multirow}
 \usepackage{setspace}
 
 \setlength{\parskip}{0.8em}
@@ -87,6 +88,24 @@ raw response file lives at
 \texttt{data/raw/BNPL Intention to use.xlsx} in the project
 repository.
 
+\subsection{The original study}
+
+\citet{dadra2024tep} frame BNPL adoption through a Technological,
+Economical, Psychological (TEP) lens. The technological factors
+(Performance Expectancy and Effort Expectancy) are drawn from the
+Unified Theory of Acceptance and Use of Technology (UTAUT); the
+economic factor is Flexibility of Payment; and the psychological
+factors (Perceived Autonomy, Perceived Competence, and Perceived
+Relatedness) are drawn from Self-Determination Theory (SDT). Their
+structural model is hierarchical rather than flat: Flexibility
+predicts Attitude (not Intention directly), the three psychological
+factors predict Perceived Usefulness, and only Performance
+Expectancy, Effort Expectancy, Attitude, and Perceived Usefulness
+predict Intention directly. Using PLS-SEM on 226 MBA-student
+responses, Dadra et al.\ find that seven of eight hypothesized paths
+are supported (the exception being Perceived Autonomy to Perceived
+Usefulness), with an overall $R^2$ of 0.621 on Intention to Adopt.
+
 \subsection{Research questions}
 
 Extending this dataset, we ask:
@@ -136,7 +155,7 @@ findings into specific managerial actions.
 \label{sec:eda}
 % =============================================================================
 
-\subsection{Data type and structure}
+\subsection{Data type, structure, and sample}
 
 The data are secondary survey data, with no experimental manipulation.
 Each of the 226 respondents answered 28 Likert items on 7-point
@@ -145,16 +164,33 @@ one of nine theoretical constructs, as defined by \citet{dadra2024tep}:
 Flexibility (FL, 3 items), Performance Expectancy (PE, 3), Effort
 Expectancy (EE, 4), Perceived Autonomy (PA, 3), Perceived Competence
 (PC, 3), Perceived Relatedness (PRE, 2), Perceived Usefulness (PU, 3),
-Attitude (AT, 4), and Intention to Adopt (IA, 3). Full item wording
-appears in Table A1 of the source paper.
+Attitude (AT, 4), and Intention to Adopt (IA, 3). Full item wording,
+with the original adapted-from citations, is reproduced in
+Appendix~A.
+
+The sample was collected via convenience sampling at a top Indian
+business school. It skews young and male: 63\% of respondents are
+aged 18--25, another 33\% are 26--30, and 67\% are male. Household
+income is heterogeneous, with 42\% reporting income above 150{,}000
+(in local currency). Critically, 69\% of the sample had never used
+BNPL at the time of the survey, so Intention to Adopt is mostly a
+forward-looking measure rather than a report of ongoing behavior.
+Because respondents are all MBA students at one Indian institution,
+our findings should be read as suggestive of how tech-adjacent young
+consumers think about BNPL, not as generalizations about the broader
+BNPL market. We revisit this limitation in Section~4.
 
 \subsection{Item response distributions}
 
-Figure~\ref{fig:item-hist} shows faceted response distributions for all
-28 items, colored by parent construct. Responses are moderately
-left-skewed for Intention-to-Adopt and Attitude items (most
-respondents are positive about BNPL) and closer to symmetric for
-Effort Expectancy and Perceived Competence.
+Figure~\ref{fig:item-hist} shows faceted response distributions for
+all 28 items, colored by parent construct. The Attitude items (AT1
+through AT4) are clearly left-skewed, with the modal response at 6
+on the 7-point scale, suggesting that respondents are broadly
+positive about BNPL in the abstract. Intention-to-Adopt items are
+closer to symmetric and in one case (IA2) mildly bimodal, with the
+modal response at 4 or 5 rather than 6. Effort Expectancy, the three
+psychological-factor constructs, and Perceived Usefulness center
+around 5.
 
 \begin{figure}[H]
   \centering
@@ -200,10 +236,11 @@ the nine construct scores. Every pairwise correlation is positive,
 consistent with a single ``positive BNPL disposition'' latent direction
 running through much of the data, but the correlations are not so
 extreme that the constructs collapse to a single factor. Attitude is
-most strongly correlated with Intention to Adopt ($r = 0.75$),
+most strongly correlated with Intention to Adopt ($r = 0.73$),
 consistent with Attitude's role in the theory as a proximal antecedent
-to behavior. Perceived Competence correlates most weakly with the rest
-of the set.
+to behavior. Perceived Relatedness has the weakest average correlation
+with the remaining constructs (mean $\approx 0.47$), with Perceived
+Competence close behind.
 
 \begin{figure}[H]
   \centering
@@ -311,11 +348,11 @@ the 9-column matrix of PC1 scores as input to the next stage.
 \paragraph{Why a finite mixture.} We want to discover \emph{latent}
 segments: there is no label in the data telling us who belongs to
 which group. Finite Gaussian mixture models, estimated via the EM
-algorithm \citep{dempster1977em}, are the canonical tool for exactly
-this problem and are the segmentation method taught in OM 386
-Lecture 13. The model places each respondent's predictor vector in
-one of $K$ multivariate normal components, with component means,
-covariances, and mixing proportions jointly estimated from the data.
+algorithm, are the canonical tool for exactly this problem and are
+the segmentation method taught in OM 386 Lecture 13. The model
+places each respondent's predictor vector in one of $K$ multivariate
+normal components, with component means, covariances, and mixing
+proportions jointly estimated from the data.
 
 \paragraph{Setup.} We use the eight predictor construct scores,
 standardized to unit variance, as the input to the mixture. The
@@ -323,10 +360,10 @@ outcome Intention to Adopt is held out for Step 3. We estimate two
 implementations of the same model.
 
 \begin{enumerate}
-  \item \texttt{mclust::Mclust} \citep{fraley2002mclust}, which
-        searches over $K \in \{1, \dots, 9\}$ and the 14 possible
-        covariance parameterizations, selecting the combination with
-        the best Bayesian Information Criterion \citep{schwarz1978bic}.
+  \item \texttt{mclust::Mclust}, which searches over
+        $K \in \{1, \dots, 9\}$ and the 14 possible covariance
+        parameterizations, selecting the combination with the best
+        Bayesian Information Criterion (BIC).
   \item A hand-coded EM sampler that directly generalizes the
         Lecture 13 regression-mixture code from a one-dimensional
         regression mixture to $p$-dimensional unsupervised
@@ -399,6 +436,28 @@ via BIC, whereas the hand-coded EM is hard-wired to full
 covariance. The two segmentations agree on the number and broad
 character of the segments; downstream conclusions are robust to
 this choice.
+
+Figure~\ref{fig:segment-proj} shows the segments projected onto the
+first two principal components of the eight standardized predictors,
+which together account for most of the between-respondent variance.
+The three segments separate cleanly along PC1, which loads positively
+on every predictor and therefore captures overall BNPL positivity:
+the Enthusiasts (blue) occupy the positive end, the Skeptics (red)
+the negative end, and the Moderates (orange) sit in between. This
+visualization makes concrete what the heatmap in
+Figure~\ref{fig:profiles} shows numerically: the three segments are
+largely a one-dimensional ordering on overall BNPL positivity, not
+three qualitatively different psychological profiles.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.72\textwidth]{02_segments_pca_projection.pdf}
+  \caption{Respondents projected onto the first two principal
+           components of the eight standardized predictors, colored
+           by segment assignment from the winning \texttt{mclust}
+           solution. Crosses mark segment centroids.}
+  \label{fig:segment-proj}
+\end{figure}
 
 % -----------------------------------------------------------------------------
 \subsection{Step 3: Bayesian hierarchical linear model}
@@ -481,8 +540,77 @@ per-segment posterior coefficients. The pattern is striking.
         strongest driver ($\bar{\beta} = 0.40$,
         $P(\beta > 0) = 0.92$). Posteriors are wider for this
         segment because it contains only 38 respondents, so claims
-        about Segment 3 should be held more loosely.
+        about Segment 3 should be held more loosely. The
+        Flexibility signal is consistent with the
+        importance-performance map analysis in
+        \citet{dadra2024tep}, which ranks Flexibility as the second
+        most important driver of adoption intention overall; our
+        segment-level view shows that the signal concentrates among
+        the Enthusiasts rather than operating uniformly.
 \end{itemize}
+
+Table~\ref{tab:posterior} gives the full per-segment posterior
+summary: mean, posterior standard deviation, 90\% credible
+interval, and the posterior probability that each coefficient is
+positive. The intercept is excluded from the main table because it
+corresponds to a standardized-zero respondent and is not directly
+interpretable as a driver.
+
+\begin{table}[H]
+  \centering
+  \caption{Per-segment posterior summary from the Gibbs sampler
+           (10{,}000 post-burn-in iterations). Posterior means are
+           the Bayesian point estimate; 90\% CI is the 5th to 95th
+           posterior percentile; $P(\beta > 0)$ is the fraction of
+           posterior mass above zero.}
+  \label{tab:posterior}
+  \small
+  \begin{tabular}{l l r r r r}
+    \toprule
+    Predictor & Segment & Post.\ mean & Post.\ SD & 90\% CI & $P(\beta > 0)$ \\
+    \midrule
+    \multirow{3}{*}{Flexibility}
+      & Seg 1 (Moderates)   &  0.01 & 0.15 & $[-0.24, 0.25]$ & 0.51 \\
+      & Seg 2 (Skeptics)    & -0.04 & 0.08 & $[-0.17, 0.08]$ & 0.29 \\
+      & Seg 3 (Enthusiasts) &  \textbf{0.40} & 0.30 & $[-0.09, 0.91]$ & \textbf{0.92} \\
+    \midrule
+    \multirow{3}{*}{Performance Expectancy}
+      & Seg 1 (Moderates)   &  \textbf{0.28} & 0.15 & $[\phantom{-}0.03, 0.53]$ & \textbf{0.97} \\
+      & Seg 2 (Skeptics)    &  \textbf{0.18} & 0.08 & $[\phantom{-}0.04, 0.31]$ & \textbf{0.99} \\
+      & Seg 3 (Enthusiasts) &  0.22 & 0.34 & $[-0.34, 0.78]$ & 0.75 \\
+    \midrule
+    \multirow{3}{*}{Effort Expectancy}
+      & Seg 1 (Moderates)   &  0.08 & 0.14 & $[-0.15, 0.31]$ & 0.72 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.02, 0.20]$ & 0.92 \\
+      & Seg 3 (Enthusiasts) &  0.06 & 0.28 & $[-0.38, 0.52]$ & 0.59 \\
+    \midrule
+    \multirow{3}{*}{Perceived Autonomy}
+      & Seg 1 (Moderates)   & -0.02 & 0.13 & $[-0.24, 0.19]$ & 0.43 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.03, 0.21]$ & 0.89 \\
+      & Seg 3 (Enthusiasts) &  0.12 & 0.29 & $[-0.34, 0.60]$ & 0.67 \\
+    \midrule
+    \multirow{3}{*}{Perceived Competence}
+      & Seg 1 (Moderates)   & -0.06 & 0.13 & $[-0.27, 0.16]$ & 0.33 \\
+      & Seg 2 (Skeptics)    & -0.01 & 0.08 & $[-0.14, 0.12]$ & 0.44 \\
+      & Seg 3 (Enthusiasts) &  0.03 & 0.27 & $[-0.40, 0.47]$ & 0.55 \\
+    \midrule
+    \multirow{3}{*}{Perceived Relatedness}
+      & Seg 1 (Moderates)   &  0.11 & 0.15 & $[-0.14, 0.36]$ & 0.78 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.09 & $[-0.05, 0.23]$ & 0.85 \\
+      & Seg 3 (Enthusiasts) &  0.04 & 0.29 & $[-0.44, 0.52]$ & 0.56 \\
+    \midrule
+    \multirow{3}{*}{Perceived Usefulness}
+      & Seg 1 (Moderates)   &  \textbf{0.28} & 0.14 & $[\phantom{-}0.05, 0.51]$ & \textbf{0.98} \\
+      & Seg 2 (Skeptics)    &  \textbf{0.13} & 0.08 & $[-0.01, 0.26]$ & \textbf{0.94} \\
+      & Seg 3 (Enthusiasts) &  0.02 & 0.28 & $[-0.44, 0.49]$ & 0.53 \\
+    \midrule
+    \multirow{3}{*}{Attitude}
+      & Seg 1 (Moderates)   &  \textbf{0.25} & 0.12 & $[\phantom{-}0.05, 0.45]$ & \textbf{0.98} \\
+      & Seg 2 (Skeptics)    &  \textbf{0.44} & 0.07 & $[\phantom{-}0.33, 0.55]$ & \textbf{1.00} \\
+      & Seg 3 (Enthusiasts) & -0.04 & 0.28 & $[-0.50, 0.41]$ & 0.45 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \begin{figure}[H]
   \centering
@@ -503,33 +631,34 @@ per-segment posterior coefficients. The pattern is striking.
   \label{fig:densities}
 \end{figure}
 
-\paragraph{Sanity checks.} We cross-validate the Bayesian posterior
-against two alternatives: a complete-pooling OLS fit (one $\boldsymbol{\beta}$
-for all 226 respondents) and a random-intercept fit in
-\texttt{lme4::lmer}. The posterior-mean hyper-coefficients
-$\boldsymbol{\mu}_\beta$ line up with the \texttt{lmer} fixed
-effects, with the largest discrepancy on Attitude (0.17 units,
+\paragraph{Cross-check against frequentist HLM.} As a sanity check
+we fit the same model in \texttt{lme4::lmer} (the frequentist HLM
+tool from Lecture 2), using a random-intercept specification
+\texttt{Intention \textasciitilde{} predictors + (1 | segment)}.
+The \texttt{lmer} fixed-effect estimates line up with the
+posterior-mean hyper-coefficients $\boldsymbol{\mu}_\beta$ from our
+Gibbs sampler, with the largest discrepancy on Attitude (0.17 units,
 reflecting the Bayesian model's allowance for segment-specific
-slopes). The \texttt{lmer} fit also triggers a boundary-singular-fit
+slopes). The \texttt{lmer} fit produces a boundary-singular-fit
 warning, indicating that once segment-specific slopes are allowed,
 there is very little residual between-segment variance in the
-\emph{intercept}. This is itself an important finding: segments
-differ in their \emph{slopes}, not their baseline intention.
-Figure~\ref{fig:shrinkage} illustrates the shrinkage signature of
-partial pooling for the Attitude slope; each segment's Bayesian
-posterior mean sits between its no-pool OLS estimate and the
-complete-pool estimate.
+\emph{intercept}: segments differ in their slopes, not their
+baselines.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.72\textwidth]{03_shrinkage_illustration.pdf}
-  \caption{Partial-pooling shrinkage for the Attitude slope. Open
-           circles are segment-stratified OLS estimates (no pooling);
-           filled circles are Bayesian posterior means (partial
-           pooling); the dashed vertical line is the complete-pooling
-           OLS estimate.}
-  \label{fig:shrinkage}
-\end{figure}
+\paragraph{Cross-check against Dadra et al.\ (2024).} A second
+sanity check is against the original paper. Our complete-pooling
+OLS in Section~\ref{sec:eda} produced $R^2 = 0.625$ on Intention to
+Adopt; Dadra et al.\ report $R^2 = 0.621$ on the same outcome using
+their PLS-SEM structural model. The near-identical overall fit
+suggests our flatter specification captures essentially the same
+explained variance, although it redistributes the credit across
+predictors: Flexibility is null in our flat regression
+($\beta = -0.02$) because Attitude absorbs its effect, whereas
+Dadra et al.\ route Flexibility through Attitude explicitly in
+their hierarchical path model and find it significant on that path
+($\beta = 0.64$, $p < 0.001$). Our segment-level Bayesian model
+recovers the Flexibility signal in a different way, by isolating it
+to the Enthusiast segment.
 
 % =============================================================================
 \section{Recommendations, Limitations, and Future Research}
@@ -571,28 +700,43 @@ The three segments require three different marketing playbooks.
 \subsection{Limitations}
 
 \begin{enumerate}
-  \item Sample size. $N = 226$ is adequate for the aggregate
-        regression but leaves Segment 3 ($n = 38$) with visibly
-        wider credible intervals. Claims about this segment should
-        be held more loosely than the Seg 1 and Seg 2 findings.
+  \item Sample size and segment imbalance. $N = 226$ is adequate for
+        the aggregate regression but leaves Segment 3 ($n = 38$)
+        with visibly wider credible intervals. Claims about this
+        segment should be held more loosely than those about
+        Segments 1 and 2.
+  \item Sample generalizability. The 226 respondents are MBA
+        students at one Indian business school, recruited via
+        convenience sampling. They skew young (63\% aged 18--25)
+        and male (67\%). Findings extrapolate with most confidence
+        to tech-adjacent young professionals and should be treated
+        as suggestive for the broader BNPL market.
+  \item Non-user majority. 69\% of respondents had never used BNPL
+        at the time of the survey, so Intention to Adopt captures
+        \emph{prospective} willingness more than reported behavior.
+        The Skeptics and Enthusiasts may partly reflect
+        user-vs-non-user status; demographic and usage covariates
+        were not in our working dataset and so could not be used to
+        check this.
+  \item Flat vs.\ hierarchical model specification. Our regression
+        places all eight predictors directly onto Intention to
+        Adopt, whereas the PLS-SEM in \citet{dadra2024tep} routes
+        Flexibility through Attitude and the psychological factors
+        through Perceived Usefulness. Our complete-pool OLS
+        therefore shows Flexibility as null not because it does not
+        matter, but because Attitude absorbs its effect.
   \item Cross-sectional survey data. The outcome is self-reported
-        \emph{intention}, not observed adoption behavior. The
-        intention-to-behavior gap is well documented in technology
-        adoption research.
-  \item Singular-fit warning in \texttt{lme4}. The random-intercept
-        validation produced a boundary-singular fit (between-segment
-        intercept variance estimated at zero). The Bayesian model
-        handles this gracefully via the hyperprior on
-        $\boldsymbol{\mu}_\beta$, but it confirms that the
-        interesting heterogeneity is in slopes, not intercepts.
-  \item Self-reported Likert data. Construct scores inherit all the
-        usual weaknesses of self-report (social desirability, common
-        method bias, response style). PCA cleaning does not address
+        intention, not observed adoption behavior, and the sample
+        is one point in time.
+  \item Self-reported Likert data. Construct scores inherit the
+        usual weaknesses of self-report (social desirability,
+        common method bias, response style). PCA does not address
         these.
   \item Segment identification is conditional. We treat the Step 2
         segment labels as fixed inputs to Step 3. A more principled
-        approach would propagate segment-membership uncertainty into
-        the posterior coefficients (see future research below).
+        approach would propagate segment-membership uncertainty
+        into the posterior coefficients (see future research
+        below).
 \end{enumerate}
 
 \subsection{Future research}
@@ -632,9 +776,80 @@ full analysis code, data, and revision history are public at
 % =============================================================================
 
 \subsection*{A. Measurement items} \label{appendix:items}
-The full item wording is Table A1 of \citet{dadra2024tep}, available
-at
-\url{https://www.tandfonline.com/doi/full/10.1080/21639159.2024.2391282}.
+
+Table~\ref{tab:items} reproduces the 28 measurement items verbatim
+from Table A1 of \citet{dadra2024tep}. Items are grouped by
+construct; the rightmost column lists the original source papers
+that Dadra et al.\ adapted each item set from. All items use a
+7-point agreement scale (1 = strongly disagree; 7 = strongly agree).
+
+\begin{table}[H]
+  \centering
+  \caption{Measurement items, reproduced verbatim from Table A1 of
+           \citet{dadra2024tep}.}
+  \label{tab:items}
+  \footnotesize
+  \begin{tabular}{p{2.7cm} p{9.3cm} p{2.8cm}}
+    \toprule
+    Construct & Item wording & Adapted from \\
+    \midrule
+    Performance expectancy &
+      ``Using BNPL service would help me accomplish transactions (i.e.\ shopping, purchases etc.) more quickly.'' \newline
+      ``Using BNPL service would help in improving my overall financial budget planning.'' \newline
+      ``Using BNPL service would make it easier for me to do transactions (i.e.\ shopping, purchases, transfers etc.)'' &
+      Patil et al.\ (2020); Venkatesh et al.\ (2012) \\
+    \midrule
+    Effort expectancy &
+      ``I would find BNPL service easy to use.'' \newline
+      ``My interaction with BNPL service would be clear and understandable.'' \newline
+      ``It would be easy for me to become skillful at using BNPL service.'' \newline
+      ``Learning to avail BNPL service would be easy for me.'' &
+      Venkatesh et al.\ (2012) \\
+    \midrule
+    Flexibility of payment &
+      ``With instant availability of credit I would be flexible in my budget planning.'' \newline
+      ``With options to break total due amount into smaller parts for repayment would help me in my budgeting.'' \newline
+      ``With options to make the repayment in short time interval period would help me in plan my budgeting.'' &
+      O'Brien (2002) \\
+    \midrule
+    Perceived autonomy &
+      ``I feel free to avail BNPL service.'' \newline
+      ``When I avail BNPL service, it is because I want to avail it.'' \newline
+      ``I am pretty competent to avail BNPL service.'' &
+      Li et al.\ (2020); Xi and Hamari (2019) \\
+    \midrule
+    Perceived competence &
+      ``I would be pretty competent in availing BNPL service.'' \newline
+      ``I would be pretty good at availing BNPL service.'' \newline
+      ``I would be pretty satisfied with managing budget with availing BNPL service.'' &
+      Li et al.\ (2020); Xi and Hamari (2019) \\
+    \midrule
+    Perceived relatedness &
+      ``I feel availing BNPL service would give me opportunities to get closer to the bank facilities.'' \newline
+      ``I feel availing BNPL service would make me connected to the bank.'' &
+      Inan et al.\ (2023); Li et al.\ (2020); Xi and Hamari (2019) \\
+    \midrule
+    Perceived usefulness &
+      ``I believe BNPL service would be useful for getting instant credit while running out of budget.'' \newline
+      ``I find BNPL service would be useful in my life.'' \newline
+      ``Using BNPL service for purchasing would enable me to purchase items if I am running out of budget.'' &
+      Chawla and Joshi (2019); Hew et al.\ (2016) \\
+    \midrule
+    Intention to adopt BNPL &
+      ``I plan to adopt BNPL service in the future.'' \newline
+      ``I will most likely adopt BNPL service in the future.'' \newline
+      ``I think it is better for me to adopt BNPL service.'' &
+      Chaouali et al.\ (2017) \\
+    \midrule
+    Attitude toward BNPL &
+      ``I like the idea of using BNPL service.'' \newline
+      ``I think that it would be a good idea to use BNPL service.'' \newline
+      ``I think that using BNPL service would be a pleasant experience.'' \newline
+      ``I think that it would be a smart idea to use BNPL service.'' &
+      Khalek and Chakraborty (2022) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection*{B. Pairwise construct-score scatterplots}
 \begin{figure}[H]

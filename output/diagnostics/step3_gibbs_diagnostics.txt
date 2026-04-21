@@ -1,4 +1,4 @@
-Gibbs sampler: NIT=10000, burn=2000, elapsed=5.5s
+Gibbs sampler: NIT=10000, burn=2000, elapsed=5.0s
 N=226, P=9, K=3 segments
 Segment sizes: 99, 89, 38
 

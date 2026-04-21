@@ -349,37 +349,6 @@ save.fig("03_forest_by_segment", {
          col=seg.palette[1:K], pch=19, lwd=2, bty="n", cex=0.85)
 }, w=9, h=7)
 
-# pooling comparison: partial-pool betas should sit between complete-pool and
-# no-pool estimates (shrinkage visualization); use Attitude as illustration
-att.col = which(colnames(X) == "Attitude")
-save.fig("03_shrinkage_illustration", {
-  par(mar=c(4,8,3,1))
-  y.pos = 1:K
-  x.rng = range(c(nop.beta[, att.col], bayes.mean[, att.col],
-                  pool.beta[att.col])) + c(-0.1, 0.1)
-  plot(NA, xlim=x.rng, ylim=c(0.5, K + 0.5), yaxt="n", ylab="",
-       xlab="Attitude coefficient",
-       main="Partial pooling shrinks no-pool toward complete-pool")
-  for(k in 1:K) {
-    arrows(nop.beta[k, att.col], y.pos[k] + 0.12,
-           bayes.mean[k, att.col], y.pos[k] + 0.12,
-           length=0.1, col=seg.palette[k], lwd=2)
-    points(nop.beta[k, att.col], y.pos[k], pch=1, cex=1.6,
-           col=seg.palette[k], lwd=2)
-    points(bayes.mean[k, att.col], y.pos[k], pch=19, cex=1.6,
-           col=seg.palette[k])
-  }
-  abline(v=pool.beta[att.col], col="#264653", lty=2, lwd=2)
-  axis(2, at=1:K, labels=paste0("Seg ", 1:K), las=1, tick=FALSE)
-  legend("topright",
-         c("no-pool OLS (open)", "partial-pool Bayes (filled)",
-           "complete-pool OLS (dashed line)"),
-         col=c("grey40","grey40","#264653"),
-         pch=c(1, 19, NA), lty=c(NA, NA, 2), lwd=c(1.5, 1.5, 2),
-         bty="n", cex=0.8)
-}, w=8, h=5)
-
-
 ###############################################################################
 # Diagnostics text file
 ###############################################################################
