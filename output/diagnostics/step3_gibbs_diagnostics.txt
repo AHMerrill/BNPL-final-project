@@ -30,7 +30,7 @@ PerceivedRelatedness   PerceivedRelatedness    0.075      0.093 -0.018
 PerceivedUsefulness     PerceivedUsefulness    0.141      0.155 -0.013
 Attitude                           Attitude    0.215      0.385 -0.170
 
-Residual SD posterior mean: 1.018  (90% CI: 0.939 - 1.104)
+Residual SD posterior mean: 1.018  (95% CI: 0.925 - 1.123)
 
 === lme4 model summary ===
 Linear mixed model fit by maximum likelihood  ['lmerMod']

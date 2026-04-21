@@ -502,8 +502,8 @@ plots for the segment intercepts and for the Attitude slope. Chains
 mix rapidly with no visible drift, indicating convergence. The
 residual precision $\tau$ and the induced residual standard deviation
 $\sqrt{1/\tau}$ also mix well (Figure~\ref{fig:trace-tau} in the
-appendix); the posterior-mean residual SD is 1.02, with 90\%
-credible interval $[0.94, 1.10]$. This is close to the residual SE
+appendix); the posterior-mean residual SD is 1.02, with 95\%
+credible interval $[0.93, 1.12]$. This is close to the residual SE
 of 1.01 from the baseline OLS in Section~\ref{sec:eda}, a useful
 sanity check that the sampler is anchored correctly.
 
@@ -521,93 +521,96 @@ Figure~\ref{fig:forest} and Figure~\ref{fig:densities} show the
 per-segment posterior coefficients. The pattern is striking.
 
 \begin{itemize}
-  \item Segment 1 (Moderates). Adoption intention is driven by
-        Performance Expectancy
-        ($\bar{\beta} = 0.28$, $P(\beta > 0) = 0.97$),
-        Perceived Usefulness
-        ($\bar{\beta} = 0.28$, $P(\beta > 0) = 0.98$), and
-        Attitude ($\bar{\beta} = 0.25$, $P(\beta > 0) = 0.98$).
-        Rational and evaluative drivers dominate.
+  \item Segment 1 (Moderates). Attitude is credibly positive
+        ($\bar{\beta} = 0.25$, 95\% CI $[0.01, 0.49]$). Performance
+        Expectancy ($\bar{\beta} = 0.28$, $P(\beta > 0) = 0.97$)
+        and Perceived Usefulness ($\bar{\beta} = 0.28$,
+        $P(\beta > 0) = 0.98$) have large posterior means and high
+        posterior probability of being positive, but their 95\%
+        credible intervals just touch zero at the lower bound; we
+        read them as suggestive rather than strictly credible at
+        the 95\% threshold.
   \item Segment 2 (Skeptics). Attitude is the near-deterministic
-        driver ($\bar{\beta} = 0.44$, $P(\beta > 0) = 1.00$).
-        Performance Expectancy
-        ($\bar{\beta} = 0.18$, $P(\beta > 0) = 0.99$) and
-        Perceived Usefulness
-        ($\bar{\beta} = 0.13$, $P(\beta > 0) = 0.94$) contribute
-        secondarily. Shifting the affective orientation of this
-        group is the single largest lever in the entire analysis.
-  \item Segment 3 (Enthusiasts). Flexibility emerges as the
-        strongest driver ($\bar{\beta} = 0.40$,
-        $P(\beta > 0) = 0.92$). Posteriors are wider for this
-        segment because it contains only 38 respondents, so claims
-        about Segment 3 should be held more loosely. The
-        Flexibility signal is consistent with the
-        importance-performance map analysis in
-        \citet{dadra2024tep}, which ranks Flexibility as the second
-        most important driver of adoption intention overall; our
-        segment-level view shows that the signal concentrates among
-        the Enthusiasts rather than operating uniformly.
+        driver ($\bar{\beta} = 0.44$, 95\% CI $[0.30, 0.57]$,
+        $P(\beta > 0) = 1.00$). Performance Expectancy is also
+        credibly positive ($\bar{\beta} = 0.18$, 95\% CI
+        $[0.02, 0.33]$). Perceived Usefulness points positive
+        ($\bar{\beta} = 0.13$, $P(\beta > 0) = 0.94$) but its 95\%
+        CI contains zero. Shifting the affective orientation of
+        this group remains the single largest lever in the entire
+        analysis.
+  \item Segment 3 (Enthusiasts). The largest posterior mean is on
+        Flexibility ($\bar{\beta} = 0.40$, $P(\beta > 0) = 0.92$),
+        consistent with the importance-performance map analysis in
+        \citet{dadra2024tep} that ranks Flexibility as the second
+        most important driver of adoption intention overall. With
+        only 38 respondents in this segment, however, the posterior
+        is wide: the 95\% CI is $[-0.18, 1.02]$ and does contain
+        zero. The Flexibility signal is suggestive rather than
+        credible at the 95\% threshold; claims about Segment 3
+        should be held accordingly.
 \end{itemize}
 
 Table~\ref{tab:posterior} gives the full per-segment posterior
-summary: mean, posterior standard deviation, 90\% credible
+summary: mean, posterior standard deviation, 95\% credible
 interval, and the posterior probability that each coefficient is
 positive. The intercept is excluded from the main table because it
 corresponds to a standardized-zero respondent and is not directly
-interpretable as a driver.
+interpretable as a driver. Rows are bolded when the 95\% credible
+interval excludes zero.
 
 \begin{table}[H]
   \centering
   \caption{Per-segment posterior summary from the Gibbs sampler
            (10{,}000 post-burn-in iterations). Posterior means are
-           the Bayesian point estimate; 90\% CI is the 5th to 95th
-           posterior percentile; $P(\beta > 0)$ is the fraction of
-           posterior mass above zero.}
+           the Bayesian point estimate; 95\% CI is the 2.5th to
+           97.5th posterior percentile; $P(\beta > 0)$ is the
+           fraction of posterior mass above zero.}
   \label{tab:posterior}
   \small
   \begin{tabular}{l l r r r r}
     \toprule
-    Predictor & Segment & Post.\ mean & Post.\ SD & 90\% CI & $P(\beta > 0)$ \\
+    Predictor & Segment & Post.\ mean & Post.\ SD & 95\% CI & $P(\beta > 0)$ \\
     \midrule
     \multirow{3}{*}{Flexibility}
-      & Seg 1 (Moderates)   &  0.01 & 0.15 & $[-0.24, 0.25]$ & 0.51 \\
-      & Seg 2 (Skeptics)    & -0.04 & 0.08 & $[-0.17, 0.08]$ & 0.29 \\
-      & Seg 3 (Enthusiasts) &  \textbf{0.40} & 0.30 & $[-0.09, 0.91]$ & \textbf{0.92} \\
+      & Seg 1 (Moderates)   &  0.01 & 0.15 & $[-0.29, 0.30]$ & 0.51 \\
+      & Seg 2 (Skeptics)    & -0.04 & 0.08 & $[-0.19, 0.11]$ & 0.29 \\
+      & Seg 3 (Enthusiasts) &  0.40 & 0.30 & $[-0.18, 1.02]$ & 0.92 \\
     \midrule
     \multirow{3}{*}{Performance Expectancy}
-      & Seg 1 (Moderates)   &  \textbf{0.28} & 0.15 & $[\phantom{-}0.03, 0.53]$ & \textbf{0.97} \\
-      & Seg 2 (Skeptics)    &  \textbf{0.18} & 0.08 & $[\phantom{-}0.04, 0.31]$ & \textbf{0.99} \\
-      & Seg 3 (Enthusiasts) &  0.22 & 0.34 & $[-0.34, 0.78]$ & 0.75 \\
+      & Seg 1 (Moderates)   &  0.28 & 0.15 & $[-0.01, 0.57]$ & 0.97 \\
+      & \textbf{Seg 2 (Skeptics)}    &  \textbf{0.18} & \textbf{0.08} & $\mathbf{[\phantom{-}0.02, 0.33]}$ & \textbf{0.99} \\
+      & Seg 3 (Enthusiasts) &  0.22 & 0.34 & $[-0.45, 0.89]$ & 0.75 \\
     \midrule
     \multirow{3}{*}{Effort Expectancy}
-      & Seg 1 (Moderates)   &  0.08 & 0.14 & $[-0.15, 0.31]$ & 0.72 \\
-      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.02, 0.20]$ & 0.92 \\
-      & Seg 3 (Enthusiasts) &  0.06 & 0.28 & $[-0.38, 0.52]$ & 0.59 \\
+      & Seg 1 (Moderates)   &  0.08 & 0.14 & $[-0.19, 0.35]$ & 0.72 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.04, 0.22]$ & 0.92 \\
+      & Seg 3 (Enthusiasts) &  0.06 & 0.28 & $[-0.49, 0.61]$ & 0.59 \\
     \midrule
     \multirow{3}{*}{Perceived Autonomy}
-      & Seg 1 (Moderates)   & -0.02 & 0.13 & $[-0.24, 0.19]$ & 0.43 \\
-      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.03, 0.21]$ & 0.89 \\
-      & Seg 3 (Enthusiasts) &  0.12 & 0.29 & $[-0.34, 0.60]$ & 0.67 \\
+      & Seg 1 (Moderates)   & -0.02 & 0.13 & $[-0.28, 0.23]$ & 0.43 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.07 & $[-0.05, 0.24]$ & 0.89 \\
+      & Seg 3 (Enthusiasts) &  0.12 & 0.29 & $[-0.43, 0.68]$ & 0.67 \\
     \midrule
     \multirow{3}{*}{Perceived Competence}
-      & Seg 1 (Moderates)   & -0.06 & 0.13 & $[-0.27, 0.16]$ & 0.33 \\
-      & Seg 2 (Skeptics)    & -0.01 & 0.08 & $[-0.14, 0.12]$ & 0.44 \\
-      & Seg 3 (Enthusiasts) &  0.03 & 0.27 & $[-0.40, 0.47]$ & 0.55 \\
+      & Seg 1 (Moderates)   & -0.06 & 0.13 & $[-0.32, 0.20]$ & 0.33 \\
+      & Seg 2 (Skeptics)    & -0.01 & 0.08 & $[-0.17, 0.14]$ & 0.44 \\
+      & Seg 3 (Enthusiasts) &  0.03 & 0.27 & $[-0.49, 0.55]$ & 0.55 \\
     \midrule
     \multirow{3}{*}{Perceived Relatedness}
-      & Seg 1 (Moderates)   &  0.11 & 0.15 & $[-0.14, 0.36]$ & 0.78 \\
-      & Seg 2 (Skeptics)    &  0.09 & 0.09 & $[-0.05, 0.23]$ & 0.85 \\
-      & Seg 3 (Enthusiasts) &  0.04 & 0.29 & $[-0.44, 0.52]$ & 0.56 \\
+      & Seg 1 (Moderates)   &  0.11 & 0.15 & $[-0.19, 0.41]$ & 0.78 \\
+      & Seg 2 (Skeptics)    &  0.09 & 0.09 & $[-0.08, 0.25]$ & 0.85 \\
+      & Seg 3 (Enthusiasts) &  0.04 & 0.29 & $[-0.53, 0.61]$ & 0.56 \\
     \midrule
     \multirow{3}{*}{Perceived Usefulness}
-      & Seg 1 (Moderates)   &  \textbf{0.28} & 0.14 & $[\phantom{-}0.05, 0.51]$ & \textbf{0.98} \\
-      & Seg 2 (Skeptics)    &  \textbf{0.13} & 0.08 & $[-0.01, 0.26]$ & \textbf{0.94} \\
-      & Seg 3 (Enthusiasts) &  0.02 & 0.28 & $[-0.44, 0.49]$ & 0.53 \\
+      & Seg 1 (Moderates)   &  0.28 & 0.14 & $[\phantom{-}0.00, 0.56]$ & 0.98 \\
+      & Seg 2 (Skeptics)    &  0.13 & 0.08 & $[-0.04, 0.29]$ & 0.94 \\
+      & Seg 3 (Enthusiasts) &  0.02 & 0.28 & $[-0.54, 0.59]$ & 0.53 \\
     \midrule
     \multirow{3}{*}{Attitude}
-      & Seg 1 (Moderates)   &  \textbf{0.25} & 0.12 & $[\phantom{-}0.05, 0.45]$ & \textbf{0.98} \\
-      & Seg 2 (Skeptics)    &  \textbf{0.44} & 0.07 & $[\phantom{-}0.33, 0.55]$ & \textbf{1.00} \\
-      & Seg 3 (Enthusiasts) & -0.04 & 0.28 & $[-0.50, 0.41]$ & 0.45 \\
+      & \textbf{Seg 1 (Moderates)}   &  \textbf{0.25} & \textbf{0.12} & $\mathbf{[\phantom{-}0.01, 0.49]}$ & \textbf{0.98} \\
+      & \textbf{Seg 2 (Skeptics)}    &  \textbf{0.44} & \textbf{0.07} & $\mathbf{[\phantom{-}0.30, 0.57]}$ & \textbf{1.00} \\
+      & Seg 3 (Enthusiasts) & -0.04 & 0.28 & $[-0.61, 0.49]$ & 0.45 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -615,9 +618,9 @@ interpretable as a driver.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{03_forest_by_segment.pdf}
-  \caption{Per-segment posterior coefficients with 90\% credible
+  \caption{Per-segment posterior coefficients with 95\% credible
            intervals (intercept omitted). Dots are posterior means;
-           bars are 90\% credible intervals. Colors denote segment.}
+           bars are 95\% credible intervals. Colors denote segment.}
   \label{fig:forest}
 \end{figure}
 

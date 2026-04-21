@@ -178,9 +178,9 @@ post.summary = expand.grid(segment=paste0("Seg", 1:K),
                            coef=colnames(X), stringsAsFactors=FALSE)
 post.summary$post.mean = NA
 post.summary$post.sd   = NA
-post.summary$q05       = NA
+post.summary$q025      = NA
 post.summary$q50       = NA
-post.summary$q95       = NA
+post.summary$q975      = NA
 post.summary$P.gt0     = NA
 
 for(k in 1:K) for(j in 1:p.dim) {
@@ -189,9 +189,9 @@ for(k in 1:K) for(j in 1:p.dim) {
                post.summary$coef    == colnames(X)[j])
   post.summary$post.mean[row] = mean(samp)
   post.summary$post.sd[row]   = sd(samp)
-  post.summary$q05[row]       = quantile(samp, 0.05)
+  post.summary$q025[row]      = quantile(samp, 0.025)
   post.summary$q50[row]       = quantile(samp, 0.50)
-  post.summary$q95[row]       = quantile(samp, 0.95)
+  post.summary$q975[row]      = quantile(samp, 0.975)
   post.summary$P.gt0[row]     = mean(samp > 0)
 }
 write.csv(round.df(post.summary, 3),
@@ -202,16 +202,16 @@ mu.summary = data.frame(
   coef      = colnames(X),
   post.mean = colMeans(mu.pos),
   post.sd   = apply(mu.pos, 2, sd),
-  q05       = apply(mu.pos, 2, quantile, 0.05),
-  q95       = apply(mu.pos, 2, quantile, 0.95)
+  q025      = apply(mu.pos, 2, quantile, 0.025),
+  q975      = apply(mu.pos, 2, quantile, 0.975)
 )
 write.csv(round.df(mu.summary, 3),
           "output/tables/hyper_mean_summary.csv", row.names=FALSE)
 
 resid.sd = sqrt(1 / tau.pos)
 cat("\nResidual SD (posterior):  mean =", round(mean(resid.sd), 3),
-    "   90% CI =", round(quantile(resid.sd, 0.05), 3),
-    "-", round(quantile(resid.sd, 0.95), 3), "\n")
+    "   95% CI =", round(quantile(resid.sd, 0.025), 3),
+    "-", round(quantile(resid.sd, 0.975), 3), "\n")
 
 
 ###############################################################################
@@ -313,14 +313,14 @@ save.fig("03_posterior_densities", {
   }
 }, w=10, h=9)
 
-# forest plot: per-segment beta with 90% CI for each predictor
+# forest plot: per-segment beta with 95% CI for each predictor
 save.fig("03_forest_by_segment", {
   par(mar=c(4, 12, 3, 1))
   pred.idx = which(colnames(X) != "(Intercept)")
   n.pred = length(pred.idx)
   y.pos = 1:(n.pred * K)
   plot(NA, xlim=c(-1.5, 1.5), ylim=c(0.5, max(y.pos) + 0.5),
-       xlab="Posterior coefficient (90% credible interval)",
+       xlab="Posterior coefficient (95% credible interval)",
        ylab="", yaxt="n",
        main="Per-segment coefficients (Bayesian posterior)")
   # light horizontal bands per predictor for readability
@@ -336,8 +336,8 @@ save.fig("03_forest_by_segment", {
     for(k in 1:K) {
       y0 = (n.pred - pp) * K + k
       m  = mean(beta.pos[, k, j])
-      lo = quantile(beta.pos[, k, j], 0.05)
-      hi = quantile(beta.pos[, k, j], 0.95)
+      lo = quantile(beta.pos[, k, j], 0.025)
+      hi = quantile(beta.pos[, k, j], 0.975)
       segments(lo, y0, hi, y0, col=seg.palette[k], lwd=2)
       points(m, y0, pch=19, col=seg.palette[k], cex=1.1)
     }
@@ -365,8 +365,8 @@ diag.lines = c(
   "",
   capture.output(print(round.df(xcheck, 3))),
   "",
-  sprintf("Residual SD posterior mean: %.3f  (90%% CI: %.3f - %.3f)",
-          mean(resid.sd), quantile(resid.sd, 0.05), quantile(resid.sd, 0.95)),
+  sprintf("Residual SD posterior mean: %.3f  (95%% CI: %.3f - %.3f)",
+          mean(resid.sd), quantile(resid.sd, 0.025), quantile(resid.sd, 0.975)),
   "",
   "=== lme4 model summary ===",
   capture.output(print(summary(lmer.fit)))
