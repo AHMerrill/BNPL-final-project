@@ -51,13 +51,18 @@ using a finite Gaussian mixture estimated via the EM algorithm, and
 (iii) estimates a Bayesian hierarchical linear model of adoption intention
 with segment-specific random coefficients via a hand-coded Gibbs sampler.
 Three segments emerge from the data, a small group of enthusiasts (17\%),
-a larger group of skeptics (39\%), and a moderate majority (44\%), and the
-posterior distributions reveal that the drivers of adoption intention
-differ sharply across segments: Attitude is the near-deterministic driver
-for skeptics, Performance Expectancy and Perceived Usefulness dominate
-the moderate segment, and Flexibility emerges as the primary driver for
-enthusiasts. The Bayesian posterior lets us state these findings as
-explicit probability claims rather than $p$-values.
+a larger group of skeptics (39\%), and a moderate majority (44\%), and
+the posterior distributions reveal that the drivers of adoption
+intention differ sharply across segments. At the 95\% credible-interval
+threshold, Attitude is credibly positive for both Moderates
+($\bar{\beta} = 0.25$) and Skeptics ($\bar{\beta} = 0.44$), and
+Performance Expectancy is credibly positive for Skeptics
+($\bar{\beta} = 0.18$). The small Enthusiast segment ($n = 38$) yields
+its largest posterior mean on Flexibility ($\bar{\beta} = 0.40$,
+$P(\beta > 0) = 0.92$), although its credible interval contains zero
+given the segment's modest size; we read that finding as directional
+rather than confirmed. The Bayesian posterior lets us state these
+results as explicit probability claims rather than $p$-values.
 \end{abstract}
 
 % =============================================================================
@@ -696,32 +701,48 @@ to the Enthusiast segment.
 The three segments require three different marketing playbooks.
 
 \begin{itemize}
-  \item Reach the Skeptics through affect, not features. Because
-        Attitude is the near-deterministic driver for Segment 2
-        ($P(\beta > 0) = 1.00$), campaigns aimed at this group should
-        prioritize how BNPL \emph{feels} (trust, simplicity, peace of
-        mind) over feature-by-feature comparison with credit cards.
-        This is the largest high-probability effect in the analysis,
-        and the Skeptics are 39\% of the sample, so the expected
-        uplift from moving them is substantial.
-  \item Sell Moderates on utility. For the neutral majority, both
-        Performance Expectancy and Perceived Usefulness matter
-        roughly equally and credibly. Concrete use-case messaging
-        (``split a \$200 purchase into four zero-interest payments'')
-        maps directly to what this segment weighs.
-  \item Sell Enthusiasts on flexibility. The already-positive
-        Enthusiast segment is primarily driven by Flexibility.
-        Messaging around control, customization, and choice of
-        repayment schedule should move them further. Because this
-        segment is smaller, however, acquisition spend should be
-        sized accordingly.
-  \item Prioritize by segment size and effect strength. Segment 2
-        (Skeptics) combines the largest high-probability effect
-        (Attitude, $P(\beta > 0) = 1.00$) with 39\% of the sample,
+  \item Reach the Skeptics through affect, not features. Attitude
+        is the credibly dominant driver for Segment 2
+        ($\bar{\beta} = 0.44$, 95\% CI $[0.30, 0.57]$), so campaigns
+        aimed at this group should prioritize how BNPL \emph{feels}
+        (trust, simplicity, peace of mind) over feature-by-feature
+        comparison with credit cards. This is the largest credibly
+        positive effect in the analysis, and the Skeptics are 39\%
+        of the sample, so the expected uplift from moving them is
+        substantial. Performance Expectancy is also credibly
+        positive for this segment ($\bar{\beta} = 0.18$, 95\% CI
+        $[0.02, 0.33]$), making feature messaging a defensible
+        secondary lever.
+  \item Sell Moderates on attitude, with utility messaging as
+        support. For the neutral majority, Attitude is credibly
+        positive ($\bar{\beta} = 0.25$, 95\% CI $[0.01, 0.49]$).
+        Performance Expectancy and Perceived Usefulness both show
+        large posterior means ($\bar{\beta} = 0.28$ each) and high
+        posterior probability of being positive
+        ($P(\beta > 0) > 0.97$), but their 95\% credible intervals
+        just touch zero at the lower bound; we read these as
+        suggestive secondary drivers rather than confirmed ones.
+        Concrete use-case messaging (``split a \$200 purchase into
+        four zero-interest payments'') maps directly to what this
+        segment weighs.
+  \item Treat the Enthusiast segment as a directional bet. With
+        only 38 respondents, no predictor crosses the 95\%
+        credible-interval threshold for this segment. The largest
+        posterior signal is on Flexibility ($\bar{\beta} = 0.40$,
+        $P(\beta > 0) = 0.92$), which is consistent with prior
+        literature ranking Flexibility highly, so messaging around
+        control, customization, and choice of repayment schedule is
+        the most defensible target. The recommendation is
+        directional rather than statistically credible, and
+        acquisition spend should be sized accordingly.
+  \item Prioritize by segment size and credibility. Segment 2
+        (Skeptics) combines the largest credibly positive effect
+        (Attitude, 95\% CI $[0.30, 0.57]$) with 39\% of the sample,
         making it the highest expected-value marketing target.
         Segment 1 (Moderates) is the largest group at 44\% with
-        moderate effect sizes. Segment 3 (Enthusiasts) is a smaller,
-        easier-to-close audience.
+        Attitude as a credible if smaller lever. Segment 3
+        (Enthusiasts) is the smallest segment and the hardest to
+        target with statistical confidence.
 \end{itemize}
 
 \subsection{Limitations}
