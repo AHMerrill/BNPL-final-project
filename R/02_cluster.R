@@ -202,22 +202,42 @@ prof.mc = profile.matrix(Y, mc.lab, "mclust")
 prof.em = profile.matrix(Y, em.lab, "handem")
 prof.w  = profile.matrix(Y, winner.lab, paste0("winner_", winner))
 
-# PCA projection of the 8 standardized predictors, colored by segment, with
-# segment centroids marked. Helps readers see the cluster geometry in 2D.
+# --------------------------------------------------------------------------
+# VISUALIZATION-ONLY PROJECTION
+# This is a SECOND PCA, separate from the 9 per-construct PCAs in Step 1.
+# Its only purpose is to project the 226 respondents from 8-dimensional
+# construct-score space down to 2-D so we can plot them on a piece of
+# paper. Its output enters no analysis (clustering uses the 8 construct
+# scores directly; the regression in Step 3 also uses the 8 scores).
+# We rename the axes "Projection Axis 1 / 2" to avoid confusing them with
+# the per-construct PC1 scores from Step 1.
+# --------------------------------------------------------------------------
 pc.proj      = prcomp(Y, center=FALSE, scale.=FALSE)
 proj.scores  = pc.proj$x[, 1:2]
 pc.var       = (pc.proj$sdev^2) / sum(pc.proj$sdev^2)
 
+# Apply the same sign-flip convention as Step 1 so the orientation is
+# deterministic: positive on Axis 1 = above-average on the predictors
+# overall, positive on Axis 2 = above-average on whatever residual
+# direction PC2 captures.
+if(mean(pc.proj$rotation[, 1]) < 0) proj.scores[, 1] = -proj.scores[, 1]
+if(mean(pc.proj$rotation[, 2]) < 0) proj.scores[, 2] = -proj.scores[, 2]
+
 save.fig("02_segments_pca_projection", {
-  par(mar=c(4.5, 4.5, 3, 1))
+  par(mar=c(4.5, 4.5, 4, 1))
   plot(proj.scores[, 1], proj.scores[, 2],
        pch=19, cex=1.1,
        col=adjustcolor(seg.palette[winner.lab], alpha.f=0.7),
-       xlab=sprintf("PC1 of predictors (%.1f%% of variance)", 100 * pc.var[1]),
-       ylab=sprintf("PC2 of predictors (%.1f%% of variance)", 100 * pc.var[2]),
-       main="Consumer segments in the first two predictor principal components")
+       xlab=sprintf("Projection Axis 1 (%.1f%% of construct-score variance)",
+                    100 * pc.var[1]),
+       ylab=sprintf("Projection Axis 2 (%.1f%% of construct-score variance)",
+                    100 * pc.var[2]),
+       main="")
+  title(main="Visualization-only projection of segments to 2-D",
+        line=2.4, cex.main=1.1)
+  title(main="(separate PCA on construct scores; does not enter clustering or regression)",
+        line=1.0, cex.main=0.85, font.main=3)
   abline(h=0, v=0, lty=3, col="grey60")
-  # centroids
   for(k in 1:K) {
     centroid = colMeans(proj.scores[winner.lab == k, 1:2, drop=FALSE])
     points(centroid[1], centroid[2], pch=4, cex=2.5,

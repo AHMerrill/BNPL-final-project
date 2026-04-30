@@ -347,12 +347,19 @@ construct would produce two or three columns per construct in the
 downstream analysis, which would defeat the purpose of building one
 composite score per construct.
 
-\paragraph{Procedure.} For each of the nine constructs, we
-(i) standardize the items, (ii) run \texttt{prcomp} on the correlation
-matrix, and (iii) flip the sign of PC1 if needed so that higher scores
-correspond to the ``high construct'' direction. Each respondent's
-score on construct $c$ is then the value of their PC1 for construct
-$c$.
+\paragraph{Procedure.} We run \emph{nine separate PCAs}, one per
+construct. Each PCA takes only the items belonging to that construct
+as input (between two and four columns), so the output PC1 of any
+one PCA is a weighted summary of the items of that construct only.
+For each construct we (i) standardize its items, (ii) run
+\texttt{prcomp} on the correlation matrix, and (iii) flip the sign
+of PC1 if needed so that higher scores correspond to the ``high
+construct'' direction. Each respondent's score on construct $c$ is
+then the value of their PC1 for construct $c$. After this step, the
+$226 \times 28$ item matrix has been replaced by a $226 \times 9$
+construct-score matrix. We refer to ``construct scores'' from here
+on; the term ``PC1'' is reserved for what comes out of these
+per-construct PCAs and does not appear elsewhere in the analysis.
 
 \paragraph{Result.} Figure~\ref{fig:pca-varexp} shows the proportion
 of variance explained by PC1 for each construct. Every construct has
@@ -470,25 +477,41 @@ covariance. The two segmentations agree on the number and broad
 character of the segments; downstream conclusions are robust to
 this choice.
 
-Figure~\ref{fig:segment-proj} shows the segments projected onto the
-first two principal components of the eight standardized predictors,
-which together account for most of the between-respondent variance.
-The three segments separate cleanly along PC1, which loads positively
-on every predictor and therefore captures overall BNPL positivity:
-the Enthusiasts (blue) occupy the positive end, the Skeptics (red)
-the negative end, and the Moderates (orange) sit in between. This
-visualization makes concrete what the heatmap in
-Figure~\ref{fig:profiles} shows numerically: the three segments are
-largely a one-dimensional ordering on overall BNPL positivity, not
+For visualization only, Figure~\ref{fig:segment-proj} projects each
+respondent from 8-dimensional construct-score space down to two
+dimensions. This projection uses a \emph{separate}, third PCA --
+distinct from the nine per-construct PCAs in Section~\ref{sec:pca}
+-- whose only role is to find the two-dimensional plane that best
+preserves pairwise distances in the original 8-D cloud. We label
+the resulting axes ``Projection Axis 1'' and ``Projection Axis 2''
+to keep them clearly separate from the per-construct PC1 scores of
+Step 1. The projection enters no analysis: clustering uses the
+8-dimensional construct scores directly, and so does the regression
+in Section~\ref{sec:hlm}.
+
+The three segments separate cleanly along Projection Axis 1, which
+loads positively on every predictor and therefore captures overall
+BNPL positivity. The Skeptics (red) occupy the negative end of the
+axis, the Moderates (blue) sit near the origin, and the Enthusiasts
+(orange) occupy the positive end. Projection Axis 2 (only 9.8\% of
+the construct-score variance) does not separate the segments
+meaningfully. The figure makes concrete what the heatmap in
+Figure~\ref{fig:profiles} shows numerically: the three segments
+form a one-dimensional ordering on overall BNPL positivity, not
 three qualitatively different psychological profiles.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.72\textwidth]{02_segments_pca_projection.pdf}
-  \caption{Respondents projected onto the first two principal
-           components of the eight standardized predictors, colored
-           by segment assignment from the winning \texttt{mclust}
-           solution. Crosses mark segment centroids.}
+  \caption{Visualization-only projection of the 226 respondents into
+           two dimensions, using a separate PCA on the
+           $226 \times 8$ construct-score matrix. The horizontal
+           axis is the largest direction of variation in that matrix
+           (roughly ``overall BNPL positivity'') and the vertical
+           axis is the second-largest. This projection enters no
+           analysis: clustering and regression both use the eight
+           construct scores directly. Crosses mark segment
+           centroids.}
   \label{fig:segment-proj}
 \end{figure}
 
