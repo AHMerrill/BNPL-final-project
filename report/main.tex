@@ -32,7 +32,7 @@
   {\normalsize A Bayesian Hierarchical Re-analysis of a TEP-Based Adoption Survey}%
 }
 \author{%
-  Zan Merrill, Andy Kim, Thomas Garner \\[4pt]
+  Zan Merrill, Andy Dohyung Kim, Thomas Garner \\[4pt]
   \small OM 386: Advanced Analytics in Marketing \\
   \small McCombs School of Business, The University of Texas at Austin%
 }
@@ -310,12 +310,33 @@ modeling from Lectures 2 and 3).
 
 \paragraph{Why PCA per construct.} Standard practice in the TEP and
 UTAUT survey traditions is to average the items in each construct
-with equal weights. This implicitly assumes every item is equally
-informative about the latent construct. We relax that assumption by
-running PCA on each construct's items separately and using the first
-principal component (PC1) as the score, so items are weighted by how
-much they contribute to shared variance. This follows the Lecture 1
-framing of PCA as an exploratory dimensionality-reduction tool.
+with equal weights, an approach that implicitly assumes every item
+is equally informative about the latent construct. We relax that
+assumption by running PCA on each construct's items separately and
+using the first principal component (PC1) as the score, so items
+are weighted by how much they contribute to shared variance. PCA
+is standard MSBA-curriculum material covered in Advanced Machine
+Learning and Unsupervised Learning; we apply it here as a refinement
+on the equal-weight composite scoring used in the source paper.
+
+\paragraph{Why PC1 only.} A common question is why we keep only the
+first principal component rather than enough components to cross
+some cumulative-variance threshold (typically 0.8). The answer is
+that we are using PCA in confirmatory mode, not exploratory mode.
+Each of the nine constructs is theoretically unidimensional, that
+is, the items in each construct are designed to be reflections of
+a single underlying factor (Performance Expectancy, Attitude, etc.),
+and the original paper validates this empirically: \citet{dadra2024tep}
+report Cronbach's alphas between 0.70 and 0.95, composite reliabilities
+all above 0.7, and average variance extracted (AVE) values all above
+0.5, the standard confirmatory thresholds for treating a set of
+items as measuring one underlying factor. PC1 is the data-driven
+estimate of that single factor; PC2 and PC3 represent residual
+secondary factors and item-specific noise that we specifically do
+not want polluting the construct score. Using more components per
+construct would produce two or three columns per construct in the
+downstream analysis, which would defeat the purpose of building one
+composite score per construct.
 
 \paragraph{Procedure.} For each of the nine constructs, we
 (i) standardize the items, (ii) run \texttt{prcomp} on the correlation
@@ -326,10 +347,13 @@ $c$.
 
 \paragraph{Result.} Figure~\ref{fig:pca-varexp} shows the proportion
 of variance explained by PC1 for each construct. Every construct has
-PC1 variance explained at least 0.63; six of nine exceed 0.75. The
-lowest is Perceived Usefulness (0.63), still well above the 0.5
-threshold for justifying a single-component summary. We carry forward
-the 9-column matrix of PC1 scores as input to the next stage.
+PC1 variance explained at least 0.63; six of nine exceed 0.75; the
+highest are Attitude (0.86) and Intention to Adopt (0.88), and the
+lowest is Perceived Usefulness (0.63). These figures, combined with
+the Cronbach's alphas and AVE values reported by Dadra et al.,
+support treating each construct as well-summarized by its first
+principal component. We carry forward the 9-column matrix of PC1
+scores as input to the next stage.
 
 \begin{figure}[H]
   \centering
