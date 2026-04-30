@@ -479,15 +479,16 @@ this choice.
 
 For visualization only, Figure~\ref{fig:segment-proj} projects each
 respondent from 8-dimensional construct-score space down to two
-dimensions. This projection uses a \emph{separate}, third PCA --
-distinct from the nine per-construct PCAs in Section~\ref{sec:pca}
--- whose only role is to find the two-dimensional plane that best
-preserves pairwise distances in the original 8-D cloud. We label
-the resulting axes ``Projection Axis 1'' and ``Projection Axis 2''
-to keep them clearly separate from the per-construct PC1 scores of
-Step 1. The projection enters no analysis: clustering uses the
-8-dimensional construct scores directly, and so does the regression
-in Section~\ref{sec:hlm}.
+dimensions. The project uses PCA in two stages: the nine
+per-construct PCAs in Section~\ref{sec:pca}, which produce the
+construct scores used in every analysis, and one additional PCA
+applied here on the $226 \times 8$ construct-score matrix purely to
+find a 2-D plane that preserves pairwise distances for plotting.
+We label the axes of this second-stage PCA ``Projection Axis 1''
+and ``Projection Axis 2'' to keep them clearly separate from the
+per-construct PC1 scores of Step 1. The projection enters no
+analysis: clustering uses the 8-dimensional construct scores
+directly, and so does the regression in Section~\ref{sec:hlm}.
 
 The three segments separate cleanly along Projection Axis 1, which
 loads positively on every predictor and therefore captures overall
