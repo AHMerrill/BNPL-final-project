@@ -1,7 +1,7 @@
 # BNPL Adoption: A Bayesian Hierarchical Take on TEP-Based Drivers
 
 **OM 386 — Advanced Analytics in Marketing — Spring 2026**
-**Team:** Zan Merrill, Andy Kim, Thomas Garner
+**Team:** Andy Dohyung Kim, Thomas Garner, Zan Merrill
 
 ## What this project is
 
