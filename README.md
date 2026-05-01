@@ -38,8 +38,6 @@ coefficients, and (c) full posterior distributions instead of p-values.
 │   ├── figures/             PNG + PDF for report
 │   ├── tables/              CSVs for report tables
 │   └── diagnostics/         MCMC traces, EM convergence, model comparison
-├── report/
-│   └── main.tex             Overleaf-synced LaTeX source (source of truth: Overleaf)
 └── README.md
 ```
 
@@ -60,5 +58,8 @@ Required packages: `readxl`, `mclust`, `mvtnorm`, `lme4`, `cluster`.
 Source of truth for the paper is Overleaf — **full edit link:**
 https://www.overleaf.com/4987795324cwjxkfyqwybs#ff0f4a
 
-A local mirror lives at [report/main.tex](report/main.tex); figures and tables referenced from
-the paper come from `output/figures/` and `output/tables/`.
+A drop-in upload bundle for Overleaf lives at
+[output/for_overleaf/](output/for_overleaf/) — `main.tex`,
+`references.bib`, and all figure PDFs in one flat folder. Figures and
+tables referenced from the paper come from `output/figures/` and
+`output/tables/`.

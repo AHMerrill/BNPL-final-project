@@ -18,7 +18,7 @@
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-report/main.pdf
+output/for_overleaf/main.pdf
 
 # Claude
 .claude/
