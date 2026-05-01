@@ -61,9 +61,23 @@ save.fig = function(name, expr, w=6, h=4, dpi=150, fig.dir="output/figures") {
   ensure.dir(fig.dir)
   expr.q = substitute(expr)
   parent  = parent.frame()
-  # 1. interactive screen render (RStudio plot pane / quartz / X11)
+  # 1. interactive screen render (RStudio plot pane / quartz / X11). Wrap in
+  # tryCatch because complex multi-panel layouts can fail with "figure
+  # margins too large" if the pane is small. On failure we reset the active
+  # device and fall through; the PNG/PDF below still get written.
   if(interactive()) {
-    eval(expr.q, envir=parent)
+    rendered.ok = tryCatch({
+      eval(expr.q, envir=parent)
+      TRUE
+    }, error = function(e) {
+      message("[save.fig] '", name, "' did not render to the active device ",
+              "(", conditionMessage(e), "). The PNG and PDF files are still ",
+              "being written; open them directly from output/figures/ or ",
+              "enlarge the RStudio plot pane and re-run that figure's script.")
+      try(while(dev.cur() > 1) dev.off(), silent = TRUE)
+      FALSE
+    })
+    invisible(rendered.ok)
   }
   # 2. PNG file
   png(file.path(fig.dir, paste0(name, ".png")), width=w*dpi, height=h*dpi, res=dpi)
