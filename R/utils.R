@@ -53,15 +53,25 @@ ensure.dir = function(path) {
   invisible(path)
 }
 
-# write a PNG and PDF of the same figure via base R graphics
+# write a PNG and PDF of the same figure via base R graphics, and -- when
+# running interactively (RStudio, R GUI) -- also draw the figure to the
+# current screen device so it shows up in the RStudio Plots pane.
 # usage: save.fig("name", {plot(...); abline(...)}, w=6, h=4)
 save.fig = function(name, expr, w=6, h=4, dpi=150, fig.dir="output/figures") {
   ensure.dir(fig.dir)
+  expr.q = substitute(expr)
+  parent  = parent.frame()
+  # 1. interactive screen render (RStudio plot pane / quartz / X11)
+  if(interactive()) {
+    eval(expr.q, envir=parent)
+  }
+  # 2. PNG file
   png(file.path(fig.dir, paste0(name, ".png")), width=w*dpi, height=h*dpi, res=dpi)
-  eval(substitute(expr), envir=parent.frame())
+  eval(expr.q, envir=parent)
   dev.off()
+  # 3. PDF file
   pdf(file.path(fig.dir, paste0(name, ".pdf")), width=w, height=h)
-  eval(substitute(expr), envir=parent.frame())
+  eval(expr.q, envir=parent)
   dev.off()
   invisible(NULL)
 }
