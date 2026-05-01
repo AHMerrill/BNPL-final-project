@@ -1,21 +1,13 @@
-Gibbs sampler: NIT=10000, burn=2000, elapsed=5.1s
+Gibbs sampler: NIT=10000, burn=2000, elapsed=4.8s
 N=226, P=9, K=3 segments
 Segment sizes: 99, 89, 38
 
 === Posterior means by segment ===
 
-     (Intercept) Flexibility PerformanceExpectancy EffortExpectancy
-Seg1       0.048       0.006                 0.280            0.078
-Seg2       0.012      -0.043                 0.177            0.092
-Seg3       0.272       0.404                 0.220            0.063
-     PerceivedAutonomy PerceivedCompetence PerceivedRelatedness
-Seg1            -0.024              -0.056                0.111
-Seg2             0.092              -0.012                0.087
-Seg3             0.123               0.034                0.040
-     PerceivedUsefulness Attitude
-Seg1               0.280    0.249
-Seg2               0.126    0.437
-Seg3               0.021   -0.042
+     (Intercept) Flexibility PerformanceExpectancy EffortExpectancy PerceivedAutonomy PerceivedCompetence PerceivedRelatedness PerceivedUsefulness Attitude
+Seg1       0.048       0.006                 0.280            0.078            -0.024              -0.056                0.111               0.280    0.249
+Seg2       0.012      -0.043                 0.177            0.092             0.092              -0.012                0.087               0.126    0.437
+Seg3       0.272       0.404                 0.220            0.063             0.123               0.034                0.040               0.021   -0.042
 
 === Hyper-mean mu_beta (posterior) vs lmer fixed effects ===
 
@@ -34,8 +26,7 @@ Residual SD posterior mean: 1.018  (95% CI: 0.925 - 1.123)
 
 === lme4 model summary ===
 Linear mixed model fit by maximum likelihood  ['lmerMod']
-Formula: Y ~ Flexibility + PerformanceExpectancy + EffortExpectancy +  
-    PerceivedAutonomy + PerceivedCompetence + PerceivedRelatedness +  
+Formula: Y ~ Flexibility + PerformanceExpectancy + EffortExpectancy +      PerceivedAutonomy + PerceivedCompetence + PerceivedRelatedness +  
     PerceivedUsefulness + Attitude + (1 | segment)
    Data: lmer.df
 
