@@ -107,3 +107,6 @@ cat("Wrote output/tables/construct_correlations.csv\n")
 cat("Wrote output/figures/00_item_response_histograms.{png,pdf}\n")
 cat("Wrote output/figures/00_construct_correlation_heatmap.{png,pdf}\n")
 cat("Wrote output/figures/00_construct_pairs.{png,pdf}\n")
+
+show.table(construct.stats,                      "Construct-score summary statistics")
+show.table(as.data.frame(round(cor.mat, 2)),     "Construct-score correlation matrix")

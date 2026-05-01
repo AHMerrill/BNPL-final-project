@@ -82,3 +82,16 @@ round.df = function(df, digits=3) {
   df[, num.cols] = lapply(df[, num.cols, drop=FALSE], round, digits)
   df
 }
+
+# Display a table in the console with a labeled header. In interactive R
+# sessions (RStudio, R GUI) optionally also open it in RStudio's data
+# viewer for spreadsheet-style inspection.
+show.table = function(df, title, view=FALSE, digits=3) {
+  rule = strrep("-", nchar(title) + 8)
+  cat("\n", rule, "\n---  ", title, "  ---\n", rule, "\n", sep="")
+  print(round.df(as.data.frame(df), digits), row.names=FALSE)
+  if(view && interactive()) {
+    try(utils::View(df, title=title), silent=TRUE)
+  }
+  invisible(df)
+}

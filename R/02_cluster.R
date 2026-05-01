@@ -295,3 +295,9 @@ cat("Wrote output/tables/segment_profiles_*.csv\n")
 cat("Wrote output/tables/segment_sizes_per_method.csv\n")
 cat("Wrote output/figures/02_*.{png,pdf}\n")
 cat("Wrote output/diagnostics/step2_cluster_diagnostics.txt\n")
+
+show.table(comp.tbl,
+           "Cluster method comparison (mclust vs hand-coded EM)")
+show.table(cbind(segment=rownames(prof.w), as.data.frame(prof.w)),
+           sprintf("Segment profiles: mean standardized score (%s, K=%d)",
+                   winner, K))

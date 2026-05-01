@@ -88,3 +88,5 @@ cat("Wrote output/tables/pca_loadings.csv\n")
 cat("Wrote output/tables/pca_variance_explained.csv\n")
 cat("Wrote output/diagnostics/step1_pca_diagnostics.txt\n")
 cat("Wrote output/figures/01_pca_variance_explained.{png,pdf}\n")
+
+show.table(varexp.tbl, "PC1 variance explained per construct")

@@ -379,3 +379,9 @@ cat("Wrote output/tables/hyper_mean_summary.csv\n")
 cat("Wrote output/tables/lmer_xcheck.csv\n")
 cat("Wrote output/figures/03_*.{png,pdf}\n")
 cat("Wrote output/diagnostics/step3_gibbs_diagnostics.txt\n")
+
+show.table(post.summary,
+           "Per-segment posterior summary (mean, SD, 95% CI, P(beta>0))",
+           view = TRUE)
+show.table(xcheck,
+           "Hyper-mean (Bayes) vs lme4 fixed effects (sanity check)")
