@@ -43,15 +43,26 @@ coefficients, and (c) full posterior distributions instead of p-values.
 
 ## Reproducing
 
+One command from the repository root:
+
+```bash
+Rscript R/run_all.R
+```
+
+This sources the four pipeline scripts in dependency order and writes
+outputs to `data/processed/`, `output/tables/`, `output/figures/`, and
+`output/diagnostics/`. Total wall time on a recent laptop: ~6 seconds.
+
+If you prefer to step through stage by stage in RStudio:
+
 ```r
-# from repo root in RStudio:
-source("R/00_eda.R")        # EDA tables + figures
 source("R/01_pca.R")        # -> data/processed/construct_scores.csv
+source("R/00_eda.R")        # EDA tables + figures
 source("R/02_cluster.R")    # -> data/processed/segment_labels.csv
 source("R/03_bayes_hlm.R")  # -> output/tables/posterior_summary.csv
 ```
 
-Required packages: `readxl`, `mclust`, `mvtnorm`, `lme4`, `cluster`.
+Required packages: `readxl`, `mclust`, `mvtnorm`, `MCMCpack`, `lme4`.
 
 ## Write-up
 
